@@ -25,13 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        dialogcommandsql.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        dialogcommandsql.h \
         mainwindow.h
 
 FORMS += \
+        dialogcommandsql.ui \
         mainwindow.ui
 
 # Default rules for deployment.
