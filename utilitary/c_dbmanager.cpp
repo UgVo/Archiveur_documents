@@ -162,7 +162,7 @@ bool c_dbManager::remove_document(const QString& path) {
     }
     remove_relations(path);
     QSqlQuery query(m_db);
-    query.prepare("DELETE FROM document"
+    query.prepare("DELETE FROM document "
                   "WHERE path = :path");
     query.bindValue(":path", path);
     return query.exec();
@@ -175,7 +175,7 @@ bool c_dbManager::remove_document(const c_document& doc) {
 c_document c_dbManager::get_document(const QString& path) {
     c_document asked_doc;
     QSqlQuery query(m_db);
-    query.prepare("SELECT * FROM document"
+    query.prepare("SELECT * FROM document "
                   "WHERE path = :path");
     query.bindValue(":path", path);
     if (query.exec()) {
@@ -187,16 +187,16 @@ c_document c_dbManager::get_document(const QString& path) {
             asked_doc.set_path(path);
         }
     }
-    query.prepare("SELECT T.name, T.r_color, T.g_color, T.b_color"
+    query.prepare("SELECT T.name, T.r_color, T.g_color, T.b_color "
                   "FROM tag AS T ,document AS D, tag_document_relation AS TD "
-                  "WHERE T.name = TD.name"
-                      "AND TD.path = D.path AND D.path = :path");
+                  "WHERE T.name = TD.name "
+                    "AND TD.path = D.path AND D.path = :path");
     query.bindValue(":path",path);
     if (query.exec()) {
-        int idName = query.record().indexOf("T.name");
-        int idR = query.record().indexOf("T.r_color");
-        int idG = query.record().indexOf("T.g_color");
-        int idB = query.record().indexOf("T.b_color");
+        int idName = query.record().indexOf("name");
+        int idR = query.record().indexOf("r_color");
+        int idG = query.record().indexOf("g_color");
+        int idB = query.record().indexOf("b_color");
         while (query.next()) {
             asked_doc.add_tag(c_tag(query.value(idName).toString(),QColor(query.value(idR).toInt(),query.value(idG).toInt(),query.value(idB).toInt())));
         }
