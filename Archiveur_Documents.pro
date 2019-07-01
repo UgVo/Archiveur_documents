@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui\
+            sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,12 +34,14 @@ INCLUDEPATH += \
         $$PWD/gui/
 
 SOURCES += \
+        c_dbmanager.cpp \
         c_document.cpp \
         c_tag.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        c_dbmanager.h \
         c_document.h \
         c_tag.h \
         mainwindow.h
