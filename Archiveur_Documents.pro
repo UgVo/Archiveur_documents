@@ -24,6 +24,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+VPATH += \
+        $$PWD/utilitary/ \
+        $$PWD/gui/
+
+INCLUDEPATH += \
+        $$PWD/utilitary/ \
+        $$PWD/gui/
+
 SOURCES += \
         c_tag.cpp \
         main.cpp \
