@@ -33,11 +33,13 @@ INCLUDEPATH += \
         $$PWD/gui/
 
 SOURCES += \
+        c_document.cpp \
         c_tag.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        c_document.h \
         c_tag.h \
         mainwindow.h
 
