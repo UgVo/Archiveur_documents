@@ -59,7 +59,9 @@ bool c_dbManager::remove_tag(const c_tag& tag) {
 
 c_tag c_dbManager::get_tag(const QString tag_name) {
     QSqlQuery query(m_db);
-    query.prepare("SELECT * from tag WHERE name = :name");
+    QSqlQuery query_count(m_db);
+    query.prepare("SELECT *  FROM tag "
+                  "WHERE name = :name");
     query.bindValue(":name",tag_name);
     if (query.exec()) {
         int idName = query.record().indexOf("name");
@@ -67,7 +69,15 @@ c_tag c_dbManager::get_tag(const QString tag_name) {
         int idG = query.record().indexOf("g_color");
         int idB = query.record().indexOf("b_color");
         if (query.next()) {
-            return c_tag(query.value(idName).toString(),QColor(query.value(idR).toInt(),query.value(idG).toInt(),query.value(idB).toInt()));
+            query_count.prepare("SELECT count(name) FROM tag, tag_document_relation AS td "
+                                "WHERE td.id_tag = tag.ROWID AND tag.name = :name");
+            query_count.bindValue(":name",query.value(idName).toString());
+            if (query_count.exec()) {
+                if (query_count.next()) {
+                    int idCount = query_count.record().indexOf("count(name)");
+                    return c_tag(query.value(idName).toString(),QColor(query.value(idR).toInt(),query.value(idG).toInt(),query.value(idB).toInt()),query_count.value(idCount).toInt());
+                }
+            }
         }
     }
     else {
@@ -79,18 +89,29 @@ c_tag c_dbManager::get_tag(const QString tag_name) {
 
 QVector<c_tag> c_dbManager::get_tags() {
     QSqlQuery query(m_db);
+    QSqlQuery query_count(m_db);
     QVector<c_tag> tag_list;
-    query.prepare("SELECT * from tag");
+    query.prepare("SELECT * FROM tag ");
     if (query.exec()) {
         int idName = query.record().indexOf("name");
         int idR = query.record().indexOf("r_color");
         int idG = query.record().indexOf("g_color");
         int idB = query.record().indexOf("b_color");
         while (query.next()) {
-            tag_list.push_back(c_tag(query.value(idName).toString(),QColor(query.value(idR).toInt(),query.value(idG).toInt(),query.value(idB).toInt())));
+            query_count.prepare("SELECT count(name) FROM tag, tag_document_relation AS td "
+                                "WHERE td.id_tag = tag.ROWID AND tag.name = :name");
+            query_count.bindValue(":name",query.value(idName).toString());
+            if (query_count.exec()) {
+                if (query_count.next()) {
+                    int idCount = query_count.record().indexOf("count(name)");
+                    qDebug() << query.value(idName).toString() << " " << query_count.value(idCount).toInt();
+                    tag_list.push_back(c_tag(query.value(idName).toString(),
+                                             QColor(query.value(idR).toInt(),query.value(idG).toInt(),query.value(idB).toInt()),
+                                             query_count.value(idCount).toInt()));
+                }
+            }
         }
-    }
-    else {
+    } else {
        qDebug() << "get_tag error:  "
                  << query.lastError();
     }
