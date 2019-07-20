@@ -37,6 +37,7 @@ SOURCES += \
         c_add_document.cpp \
         c_dbmanager.cpp \
         c_document.cpp \
+        c_document_model.cpp \
         c_tag.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
         c_add_document.h \
         c_dbmanager.h \
         c_document.h \
+        c_document_model.h \
         c_tag.h \
         mainwindow.h \
         utilitary/c_tag_model.h
