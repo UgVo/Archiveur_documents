@@ -99,12 +99,25 @@ QVector<c_tag> c_dbManager::get_tags() {
 
 bool c_dbManager::add_relation(const c_document& doc, const c_tag& tag) {
     QSqlQuery query(m_db);
-    query.prepare("INSERT INTO tag_document_relation (name,path)"
-                  "VALUES (:name, :path)");
+    query.prepare("SELECT tag.ROWID,document.ROWID from tag,document "
+                  "WHERE tag.name = :name AND document.path =  :path");
     query.bindValue(":name", tag.get_name());
     query.bindValue(":path", doc.get_path());
-
-    return query.exec();
+    if (query.exec()) {
+        if (query.next()) {
+            int id_tag = query.value(query.record().indexOf("tag.ROWID")).toInt();
+            int id_doc = query.value(query.record().indexOf("document.ROWID")).toInt();
+            query.prepare("INSERT INTO tag_document_relation (id_tag,id_doc)"
+                          "VALUES (:id_tag, :id_doc)");
+            query.bindValue(":id_tag",id_tag);
+            query.bindValue(":id_doc",id_doc);
+            return query.exec();
+        }
+    } else {
+        qDebug() << "add_relation get ROWID error:  "
+                  << query.lastError();
+    }
+    return false;
 }
 
 bool c_dbManager::remove_relation(const c_document& doc, const c_tag& tag) {
@@ -189,8 +202,8 @@ c_document c_dbManager::get_document(const QString& path) {
     }
     query.prepare("SELECT T.name, T.r_color, T.g_color, T.b_color "
                   "FROM tag AS T ,document AS D, tag_document_relation AS TD "
-                  "WHERE T.name = TD.name "
-                    "AND TD.path = D.path AND D.path = :path");
+                  "WHERE T.ROWID = TD.id_tag "
+                    "AND TD.id_doc = D.ROWID AND D.path = :path");
     query.bindValue(":path",path);
     if (query.exec()) {
         int idName = query.record().indexOf("name");
