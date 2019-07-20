@@ -38,13 +38,15 @@ SOURCES += \
         c_document.cpp \
         c_tag.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        utilitary/c_tag_model.cpp
 
 HEADERS += \
         c_dbmanager.h \
         c_document.h \
         c_tag.h \
-        mainwindow.h
+        mainwindow.h \
+        utilitary/c_tag_model.h
 
 FORMS += \
         mainwindow.ui
