@@ -34,6 +34,7 @@ void c_document::set_tag_list(QVector<c_tag> tag_list) {
 
 void c_document::add_tag(c_tag new_tag) {
     if (m_tag_list.indexOf(new_tag) == -1) {
+        new_tag.set_count(0); // Set count to 0 so that the sorting process only takes in concideration the alphabetic order.
         m_tag_list.push_back(new_tag);
     }
 }
