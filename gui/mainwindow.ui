@@ -110,34 +110,29 @@
     <property name="title">
      <string>&amp;Fichier</string>
     </property>
-    <addaction name="actionAjouter_document"/>
-    <addaction name="action_Supprimer_document"/>
+    <addaction name="action_add_document"/>
+    <addaction name="action_delete_document"/>
    </widget>
    <widget class="QMenu" name="menuDebug">
     <property name="title">
      <string>Debug</string>
     </property>
-    <addaction name="actionSQLCommand_2"/>
+    <addaction name="actionSQLCommand"/>
    </widget>
    <addaction name="menufichier"/>
    <addaction name="menuDebug"/>
   </widget>
-  <action name="actionAjouter_document">
+  <action name="action_add_document">
    <property name="text">
     <string>&amp;Ajouter document</string>
    </property>
   </action>
-  <action name="action_Supprimer_document">
+  <action name="action_delete_document">
    <property name="text">
     <string>&amp;Supprimer document</string>
    </property>
   </action>
   <action name="actionSQLCommand">
-   <property name="text">
-    <string>SQLCommand</string>
-   </property>
-  </action>
-  <action name="actionSQLCommand_2">
    <property name="text">
     <string>SQLCommand</string>
    </property>
