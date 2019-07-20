@@ -57,6 +57,36 @@ bool c_dbManager::remove_tag(const c_tag& tag) {
     return remove_tag(tag.get_name());
 }
 
+bool c_dbManager::update_tag_name(const c_tag& tag, const QString new_name) {
+    QSqlQuery query(m_db);
+    QString old_name = tag.get_name();
+    query.prepare("UPDATE tag set name = :new_name WHERE name = :old_name");
+    query.bindValue(":new_name",new_name);
+    query.bindValue(":old_name",old_name);
+    if (!query.exec()) {
+       qDebug() << "update_tag_name error:  "
+                 << query.lastError();
+       return false;
+    }
+    return true;
+}
+
+bool c_dbManager::update_tag_color(const QString &tag_name, const QColor new_color) {
+    QSqlQuery query(m_db);
+    query.prepare("UPDATE tag SET r_color = :r_color, g_color = :g_color, b_color = :b_color "
+                  "WHERE name = :old_name");
+    query.bindValue(":r_color", new_color.red());
+    query.bindValue(":g_color", new_color.green());
+    query.bindValue(":b_color", new_color.blue());
+    query.bindValue(":old_name",tag_name);
+    if (!query.exec()) {
+       qDebug() << "update_tag_name error:  "
+                 << query.lastError();
+       return false;
+    }
+    return true;
+}
+
 c_tag c_dbManager::get_tag(const QString tag_name) {
     QSqlQuery query(m_db);
     QSqlQuery query_count(m_db);

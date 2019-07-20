@@ -20,6 +20,8 @@ public:
     bool add_tag(const c_tag& new_tag);
     bool remove_tag(const QString& tag_name);
     bool remove_tag(const c_tag& tag);
+    bool update_tag_name(const c_tag& tag, const QString new_name);
+    bool update_tag_color(const QString& tag_name, const QColor new_color);
     c_tag get_tag(const QString tag_name);
     QVector<c_tag> get_tags();
 
