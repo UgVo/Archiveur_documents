@@ -1,7 +1,9 @@
 #include "c_tag.h"
 
-c_tag::c_tag(QString name, QColor color) : m_color(color) {
+c_tag::c_tag(QString name, QColor color, int count) : m_color(color) {
     m_name = name.toLower();
+    m_state = false;
+    m_count = count;
 }
 
 QString c_tag::get_name() const{
@@ -20,6 +22,21 @@ void c_tag::set_color(QColor color) {
     m_color = color;
 }
 
+bool c_tag::get_state() const {
+    return m_state;
+}
+
+void c_tag::set_state(bool state) {
+    m_state = state;
+}
+
+int c_tag::get_count() const {
+    return m_count;
+}
+void c_tag::set_count(int const count) {
+    m_count = count;
+}
+
 bool c_tag::operator ==(const c_tag& tag) const {
     return (m_color == tag.get_color() && m_name == tag.get_name());
 }
@@ -29,5 +46,5 @@ bool c_tag::operator !=(const c_tag &tag) const {
 }
 
 bool c_tag::operator <(const c_tag &tag) const {
-    return this->m_name < tag.get_name();
+    return this->m_count == tag.get_count() ? this->m_name < tag.get_name() : this->m_count > tag.get_count();
 }
