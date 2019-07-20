@@ -34,6 +34,7 @@ INCLUDEPATH += \
         $$PWD/gui/
 
 SOURCES += \
+        c_add_document.cpp \
         c_dbmanager.cpp \
         c_document.cpp \
         c_tag.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
         utilitary/c_tag_model.cpp
 
 HEADERS += \
+        c_add_document.h \
         c_dbmanager.h \
         c_document.h \
         c_tag.h \
@@ -49,6 +51,7 @@ HEADERS += \
         utilitary/c_tag_model.h
 
 FORMS += \
+        c_add_document.ui \
         mainwindow.ui
 
 # Default rules for deployment.
