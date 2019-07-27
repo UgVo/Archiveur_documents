@@ -4,7 +4,6 @@
 #include <QDialog>
 #include <c_dbmanager.h>
 #include <c_tag_model.h>
-#include <c_tag_box.h>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QUrl>
