@@ -94,9 +94,11 @@ bool c_tag_model::setData(const QModelIndex &index, const QVariant &value, int r
             }
         }
         else {
-            if(m_bdd->update_tag_name(*tag, value.toString())) {
-                tag->set_name(value.toString());
-                setEditable(index,false);
+            if (role == Qt::EditRole) {
+                if(m_bdd->update_tag_name(*tag, value.toString())) {
+                    tag->set_name(value.toString());
+                    setEditable(index,false);
+                }
             }
         }
     }
